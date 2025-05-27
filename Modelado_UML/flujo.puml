@@ -1,0 +1,156 @@
+@startuml Secuencia - Declaración de Impuestos 2023
+
+actor Usuario
+participant "MenuPrincipal\n(Vista)" as Vista
+participant "SistemaController\n(Controlador)" as Controlador
+participant "Contribuyente\n(Modelo)" as ModeloContribuyente
+participant "Declaracion\n(Modelo)" as ModeloDeclaracion
+participant "Sueldo\n(Modelo)" as ModeloSueldo
+participant "Factura\n(Modelo)" as ModeloFactura
+participant "TablaImpuestoRenta\n(Modelo)" as ModeloTabla
+participant "ValidadorDatos\n(Modelo)" as Validador
+participant "Archivo de datos\n(.dat)" as Archivo
+
+Usuario -> Vista: Inicia el programa
+activate Vista
+
+Vista -> Vista: mostrarMenu()
+Vista --> Usuario: Muestra opciones del menú
+
+Usuario -> Vista: Selecciona registrar datos del contribuyente
+Vista -> Controlador: registrarContribuyente(nombre, cedula, direccion, telefono, email, ocupacion)
+activate Controlador
+Controlador -> Validador: validarCedula(cedula)
+activate Validador
+Validador --> Controlador: true/false
+deactivate Validador
+Controlador -> Validador: validarEmail(email)
+activate Validador
+Validador --> Controlador: true/false
+deactivate Validador
+Controlador -> ModeloContribuyente: new Contribuyente()
+activate ModeloContribuyente
+ModeloContribuyente --> Controlador: contribuyente creado
+deactivate ModeloContribuyente
+Controlador -> ModeloDeclaracion: new Declaracion()
+activate ModeloDeclaracion
+ModeloDeclaracion -> ModeloTabla: new TablaImpuestoRenta(2023)
+activate ModeloTabla
+ModeloTabla --> ModeloDeclaracion: tabla creada
+deactivate ModeloTabla
+ModeloDeclaracion --> Controlador: declaración creada
+deactivate ModeloDeclaracion
+Controlador --> Vista: true
+deactivate Controlador
+
+Vista --> Usuario: Pide datos de sueldos mensuales
+
+Usuario -> Vista: Ingresa datos de sueldo mensual
+Vista -> Controlador: agregarSueldo(mes, monto, aporteIESS, impuestoRetenido)
+activate Controlador
+Controlador -> ModeloSueldo: new Sueldo()
+activate ModeloSueldo
+ModeloSueldo --> Controlador: sueldo creado
+deactivate ModeloSueldo
+Controlador -> ModeloDeclaracion: agregarSueldo(sueldo)
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: void
+deactivate ModeloDeclaracion
+Controlador --> Vista: true
+deactivate Controlador
+
+Vista --> Usuario: Pide datos de factura
+
+Usuario -> Vista: Ingresa datos de factura
+Vista -> Vista: leerCategoria()
+Vista -> Controlador: agregarFactura(numero, proveedor, fecha, monto, iva, categoria)
+activate Controlador
+Controlador -> Validador: validarFactura(numero)
+activate Validador
+Validador --> Controlador: true/false
+deactivate Validador
+Controlador -> Validador: validarFecha(fecha, anio)
+activate Validador
+Validador --> Controlador: true/false
+deactivate Validador
+Controlador -> ModeloFactura: new Factura()
+activate ModeloFactura
+ModeloFactura --> Controlador: factura creada
+deactivate ModeloFactura
+Controlador -> ModeloDeclaracion: agregarFactura(factura)
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: void
+deactivate ModeloDeclaracion
+Controlador --> Vista: true
+deactivate Controlador
+
+Usuario -> Vista: Solicita validar datos de la declaración
+Vista -> Controlador: validarDatosDeclaracion()
+activate Controlador
+Controlador -> ModeloDeclaracion: validarLimitesDeducibles()
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: true/false
+deactivate ModeloDeclaracion
+Controlador -> Vista: obtenerLimitesDeducibles()
+Controlador -> Vista: obtenerGastosPorCategoria()
+Controlador --> Vista: true/false
+deactivate Controlador
+Vista -> Vista: mostrarTablaGastos(gastos, limites)
+Vista --> Usuario: Muestra resultados de validación
+
+Usuario -> Vista: Solicita cálculo de impuesto
+Vista -> Controlador: calcularDeclaracion()
+activate Controlador
+Controlador -> ModeloDeclaracion: calcularIngresoAnual()
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: double
+deactivate ModeloDeclaracion
+Controlador -> ModeloDeclaracion: calcularGastosDeducibles()
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: double
+deactivate ModeloDeclaracion
+Controlador -> ModeloDeclaracion: calcularBaseImponible()
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: double
+deactivate ModeloDeclaracion
+Controlador -> ModeloDeclaracion: calcularImpuestoCausado()
+activate ModeloDeclaracion
+ModeloDeclaracion -> ModeloTabla: calcularImpuesto(baseImponible)
+activate ModeloTabla
+ModeloTabla --> ModeloDeclaracion: double
+deactivate ModeloTabla
+ModeloDeclaracion --> Controlador: double
+deactivate ModeloDeclaracion
+Controlador -> ModeloDeclaracion: calcularSaldoAPagar()
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: double
+deactivate ModeloDeclaracion
+Controlador --> Vista: double (resultado)
+deactivate Controlador
+
+Vista -> Controlador: obtenerResumenDeclaracion()
+activate Controlador
+Controlador -> ModeloDeclaracion: getDatosResumen()
+activate ModeloDeclaracion
+ModeloDeclaracion --> Controlador: String[]
+deactivate ModeloDeclaracion
+Controlador --> Vista: String[]
+deactivate Controlador
+Vista -> Vista: mostrarResultados(resultados)
+Vista --> Usuario: Muestra resumen de declaración
+
+Usuario -> Vista: Guardar declaración
+Vista -> Controlador: guardarDatos(nombreArchivo)
+activate Controlador
+Controlador -> Archivo: FileOutputStream + ObjectOutputStream
+activate Archivo
+Archivo --> Controlador: true
+deactivate Archivo
+Controlador --> Vista: true
+deactivate Controlador
+
+Vista --> Usuario: Confirma guardado
+
+deactivate Vista
+
+@enduml
