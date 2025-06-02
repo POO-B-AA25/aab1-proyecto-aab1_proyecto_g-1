@@ -21,7 +21,7 @@ public class MenuPrincipal {
         boolean salir = false;
 
         while (!salir) {
-            System.out.println("\n===== SISTEMA DE DECLARACIÓN DE IMPUESTOS 2025 =====");
+            System.out.println("\n --- SISTEMA DE DECLARACIÓN DE IMPUESTOS 2025 ---");
             System.out.println("[1] Registrar datos del contribuyente");
             System.out.println("[2] Registrar sueldo mensual");
             System.out.println("[3] Registrar factura");
@@ -33,9 +33,9 @@ public class MenuPrincipal {
             System.out.println("[0] Salir");
             System.out.print("Seleccione una opción: ");
 
-            int opcion = leerEntero("", 0, 8);
+            int opc = leerEntero("", 0, 8);
 
-            switch (opcion) {
+            switch (opc) {
                 case 1:
                     registrarContribuyente();
                     break;
@@ -74,7 +74,7 @@ public class MenuPrincipal {
     }
 
     private void registrarContribuyente() {
-        System.out.println("\n----- REGISTRO DE CONTRIBUYENTE -----");
+        System.out.println("\n --- REGISTRO DE CONTRIBUYENTE  ---");
 
         String nombre = leerDatos("Ingrese el nombre completo: ");
         String cedula = leerDatos("Ingrese la cédula (10 dígitos): ");
@@ -98,7 +98,7 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.println("\n----- REGISTRO DE SUELDO MENSUAL -----");
+        System.out.println("\n --- REGISTRO DE SUELDO MENSUAL  ---");
 
         int mes = leerEntero("Ingrese el mes (1-12): ", 1, 12);
         double monto = leerNumero("Ingrese el monto del sueldo: $", 0, Double.MAX_VALUE);
@@ -120,7 +120,7 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.println("\n----- REGISTRO DE FACTURA -----");
+        System.out.println("\n --- REGISTRO DE FACTURA  ---");
 
         String numero = leerDatos("Ingrese el número de factura (formato: 001-001-000000001): ");
         String proveedor = leerDatos("Ingrese el nombre del proveedor: ");
@@ -146,14 +146,14 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.println("\n----- VALIDACIÓN DE DECLARACIÓN -----");
+        System.out.println("\n --- VALIDACIÓN DE DECLARACIÓN  ---");
 
         boolean valido = controller.validarDatosDeclaracion();
 
         if (valido) {
             System.out.println("La declaración es válida.");
 
-            // Mostrar tabla de gastos vs límites
+            // Mostrar tabla de gastos vs. límites
             Map<CategoriaGasto, Double> gastos = controller.obtenerGastosPorCategoria();
             Map<CategoriaGasto, Double> limites = controller.obtenerLimitesDeducibles();
 
@@ -161,7 +161,7 @@ public class MenuPrincipal {
         } else {
             System.out.println("La declaración NO es válida. Se exceden los límites deducibles.");
 
-            // Mostrar tabla de gastos vs límites para identificar problemas
+            // Mostrar tabla de gastos vs. límites para identificar problemas
             Map<CategoriaGasto, Double> gastos = controller.obtenerGastosPorCategoria();
             Map<CategoriaGasto, Double> limites = controller.obtenerLimitesDeducibles();
 
@@ -175,7 +175,7 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.println("\n----- CÁLCULO DE IMPUESTO A LA RENTA -----");
+        System.out.println("\n --- CÁLCULO DE IMPUESTO A LA RENTA  ---");
 
         double saldoAPagar = controller.calcularDeclaracion();
 
@@ -196,7 +196,7 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.println("\n----- RESUMEN DE DECLARACIÓN -----");
+        System.out.println("\n --- RESUMEN DE DECLARACIÓN  ---");
         System.out.println("Contribuyente: " + controller.getContribuyente().getNombre());
         System.out.println("Cédula: " + controller.getContribuyente().getCedula());
 
@@ -210,7 +210,7 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.println("\n----- GUARDAR DECLARACIÓN -----");
+        System.out.println("\n --- GUARDAR DECLARACIÓN  ---");
 
         String nombreArchivo = leerDatos("Ingrese el nombre del archivo para guardar (o Enter para 'declaracion.dat'): ");
         if (nombreArchivo.isEmpty()) {
@@ -227,7 +227,7 @@ public class MenuPrincipal {
     }
 
     private void cargarDeclaracion() {
-        System.out.println("\n----- CARGAR DECLARACIÓN -----");
+        System.out.println("\n --- CARGAR DECLARACIÓN  ---");
 
         String nombreArchivo = leerDatos("Ingrese el nombre del archivo a cargar (o Enter para 'declaracion.dat'): ");
         if (nombreArchivo.isEmpty()) {
