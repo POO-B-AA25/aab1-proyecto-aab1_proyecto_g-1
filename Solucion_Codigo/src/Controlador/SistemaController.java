@@ -1,21 +1,24 @@
-package Controlador;
+package Controlador; // Este archivo está en el paquete Controlador (controla la lógica principal)
 
-import Modelo.*;
-import java.io.*;
-import java.time.LocalDate;
-import java.util.Map;
+import Modelo.*; // Importa todos los modelos de datos (Contribuyente, Declaracion, etc.)
+import java.io.*; // Para guardar y cargar archivos
+import java.time.LocalDate; // Para manejar fechas
+import java.util.Map; // Para manejar tablas de datos (gastos por categoría, límites, etc.)
 
+// Clase principal que controla la lógica del sistema y conecta la vista con los modelos
 public class SistemaController {
-    private Contribuyente contribuyente;
-    private Declaracion declaracion;
+    private Contribuyente contribuyente; // Persona que declara impuestos
+    private Declaracion declaracion;     // Declaración anual de impuestos
 
+    // Constructor: inicia sin contribuyente ni declaración
     public SistemaController() {
         this.contribuyente = null;
         this.declaracion = null;
     }
 
+    // Registra los datos del contribuyente y crea una nueva declaración
     public boolean registrarContribuyente(String nombre, String cedula, String direccion, String telefono, String email, String ocupacion) {
-        // Validar cédula y email
+        // Validar cédula y email usando ValidadorDatos
         if (!ValidadorDatos.validarCedula(cedula)) {
             System.err.println("La cédula ingresada no es válida.");
             return false;
@@ -27,6 +30,7 @@ public class SistemaController {
         }
 
         try {
+            // Si todo es válido, crea el contribuyente y la declaración
             this.contribuyente = new Contribuyente(nombre, cedula, direccion, telefono, email, ocupacion);
             this.declaracion = new Declaracion();
             return true;
@@ -36,6 +40,7 @@ public class SistemaController {
         }
     }
 
+    // Agrega o reemplaza el sueldo de un mes en la declaración
     public boolean agregarSueldo(int mes, double monto, double aporteIESS, double impuestoRetenido) {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -62,6 +67,7 @@ public class SistemaController {
         }
     }
 
+    // Agrega una factura de gasto deducible a la declaración
     public boolean agregarFactura(String numero, String proveedor, LocalDate fecha, double monto, double iva, CategoriaGasto categoria) {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -74,7 +80,7 @@ public class SistemaController {
             return false;
         }
 
-        // Validar fecha
+        // Validar fecha (debe ser del año de la declaración)
         if (!ValidadorDatos.validarFecha(fecha, declaracion.getAnio())) {
             System.err.println("La fecha debe corresponder al año de la declaración.");
             return false;
@@ -95,6 +101,7 @@ public class SistemaController {
         }
     }
 
+    // Valida que la declaración tenga datos mínimos y que los gastos no excedan los límites legales
     public boolean validarDatosDeclaracion() {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -107,10 +114,11 @@ public class SistemaController {
             return false;
         }
 
-        // Validar los límites de gastos deducibles
+        // Validar los límites de gastos deducibles por categoría
         return declaracion.validarLimitesDeducibles();
     }
 
+    // Calcula el saldo a pagar o a favor en la declaración
     public double calcularDeclaracion() {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -121,6 +129,7 @@ public class SistemaController {
         return declaracion.calcularSaldoAPagar();
     }
 
+    // Devuelve los límites deducibles por categoría (para mostrar al usuario)
     public Map<CategoriaGasto, Double> obtenerLimitesDeducibles() {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -130,6 +139,7 @@ public class SistemaController {
         return declaracion.getLimitesDeduciblesPorCategoria();
     }
 
+    // Devuelve el total de gastos por cada categoría
     public Map<CategoriaGasto, Double> obtenerGastosPorCategoria() {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -139,6 +149,7 @@ public class SistemaController {
         return declaracion.getTotalGastosPorCategoria();
     }
 
+    // Devuelve un resumen de la declaración (ingresos, gastos, impuesto, etc.)
     public String[] obtenerResumenDeclaracion() {
         if (declaracion == null) {
             System.err.println("No hay una declaración activa. Registre un contribuyente primero.");
@@ -148,6 +159,7 @@ public class SistemaController {
         return declaracion.getDatosResumen();
     }
 
+    // Guarda los datos del contribuyente y la declaración en un archivo
     public boolean guardarDatos(String nombreArchivo) {
         if (contribuyente == null || declaracion == null) {
             System.err.println("No hay datos para guardar.");
@@ -168,6 +180,7 @@ public class SistemaController {
         }
     }
 
+    // Carga los datos del contribuyente y la declaración desde un archivo
     public boolean cargarDatos(String nombreArchivo) {
         try (FileInputStream fileIn = new FileInputStream(nombreArchivo);
              ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
@@ -186,6 +199,7 @@ public class SistemaController {
         }
     }
 
+    // Métodos para obtener los objetos principales (para la vista)
     public Contribuyente getContribuyente() {
         return contribuyente;
     }

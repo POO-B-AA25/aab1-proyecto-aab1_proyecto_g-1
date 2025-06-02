@@ -1,20 +1,22 @@
-package Modelo;
+package Modelo; // Este archivo está en el paquete Modelo
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.Serializable; // Permite guardar/cargar objetos de esta clase
+import java.time.LocalDate;  // Para manejar fechas
+import java.time.format.DateTimeFormatter; // Para mostrar fechas en texto
 
+// Clase que representa una factura de gasto deducible
 public class Factura implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String numero;
-    private String proveedor;
-    private LocalDate fecha;
-    private double monto;
-    private double iva;
-    private CategoriaGasto categoria;
-    private boolean deducible;
+    private String numero;         // Número de la factura (ej: 001-001-000000001)
+    private String proveedor;      // Nombre del proveedor
+    private LocalDate fecha;       // Fecha de la factura
+    private double monto;          // Monto sin IVA
+    private double iva;            // Valor del IVA
+    private CategoriaGasto categoria; // Categoría del gasto (vivienda, salud, etc.)
+    private boolean deducible;     // Si la factura es deducible o no
 
+    // Constructor vacío (por defecto)
     public Factura() {
         this.numero = "";
         this.proveedor = "";
@@ -25,6 +27,7 @@ public class Factura implements Serializable {
         this.deducible = false;
     }
 
+    // Constructor con todos los datos
     public Factura(String numero, String proveedor, LocalDate fecha, double monto, double iva, CategoriaGasto categoria) {
         this.numero = numero;
         this.proveedor = proveedor;
@@ -32,9 +35,10 @@ public class Factura implements Serializable {
         this.monto = monto;
         this.iva = iva;
         this.categoria = categoria;
-        this.deducible = true; // Por defecto se asume deducible
+        this.deducible = true; // Por defecto, la factura es deducible
     }
 
+    // Métodos para obtener y modificar los datos
     public String getNumero() {
         return numero;
     }
@@ -91,10 +95,12 @@ public class Factura implements Serializable {
         this.deducible = deducible;
     }
 
+    // Devuelve el monto deducible (si la factura es deducible, devuelve el monto; si no, 0)
     public double getMontoDeducible() {
         return deducible ? monto : 0.0;
     }
 
+    // Representación en texto de la factura (útil para depuración)
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

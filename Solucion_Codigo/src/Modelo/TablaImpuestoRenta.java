@@ -1,23 +1,25 @@
-package Modelo;
+package Modelo; // Este archivo está en el paquete Modelo
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.io.Serializable; // Permite guardar/cargar objetos de esta clase en archivos
+import java.util.ArrayList;  // Lista dinámica para guardar los rangos de la tabla
 
+// Clase que representa la tabla oficial de impuesto a la renta de un año
 public class TablaImpuestoRenta implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; // Versión para serialización
 
-    private int anio;
-    private ArrayList<RangoImpuesto> rangos;
+    private int anio; // Año fiscal de la tabla
+    private ArrayList<RangoImpuesto> rangos; // Lista de rangos de impuesto
 
+    // Constructor: recibe el año y crea la tabla con los rangos oficiales
     public TablaImpuestoRenta(int anio) {
         this.anio = anio;
         this.rangos = new ArrayList<>();
-        inicializarTabla2023();
+        inicializarTabla2023(); // Llena la tabla con los valores del año 2023
     }
 
+    // Llena la tabla con los valores oficiales del SRI para 2023
     private void inicializarTabla2023() {
-        // Tabla IR 2023 Ecuador
-        // Fracción Básica, Fracción Excedente, Impuesto Fracción Básica, % Impuesto Fracción Excedente
+        // Cada rango: fracción básica, fracción excedente, impuesto básico, % impuesto excedente
         rangos.add(new RangoImpuesto(0.00, 11310.00, 0.00, 0.00));
         rangos.add(new RangoImpuesto(11310.01, 14410.00, 0.00, 0.05));
         rangos.add(new RangoImpuesto(14410.01, 18010.00, 155.00, 0.10));
@@ -30,30 +32,34 @@ public class TablaImpuestoRenta implements Serializable {
         rangos.add(new RangoImpuesto(100000.01, Double.MAX_VALUE, 23378.90, 0.37));
     }
 
+    // Calcula el impuesto a la renta según la base imponible usando la tabla
     public double calcularImpuesto(double baseImponible) {
-        RangoImpuesto rango = buscarRango(baseImponible);
+        RangoImpuesto rango = buscarRango(baseImponible); // Busca el rango correspondiente
 
         if (rango == null) {
-            return 0.0;
+            return 0.0; // Si no encuentra rango, no hay impuesto
         }
 
-        double excedente = baseImponible - rango.getFraccionBasica();
-        double impuestoExcedente = excedente * rango.getPorcentajeFraccionExcedente();
+        double excedente = baseImponible - rango.getFraccionBasica(); // Lo que excede la fracción básica
+        double impuestoExcedente = excedente * rango.getPorcentajeFraccionExcedente(); // Impuesto por el excedente
 
+        // Impuesto total = impuesto básico + impuesto por excedente
         return rango.getImpuestoFraccionBasica() + impuestoExcedente;
     }
 
+    // Busca el rango de la tabla donde cae la base imponible
     public RangoImpuesto buscarRango(double baseImponible) {
         for (RangoImpuesto rango : rangos) {
-            // Si es el último rango o está dentro del rango actual
+            // Si está dentro del rango actual o es el último rango
             if (baseImponible >= rango.getFraccionBasica() &&
                     (baseImponible < rango.getFraccionExcedente() || rango.getFraccionExcedente() == Double.MAX_VALUE)) {
                 return rango;
             }
         }
-        return null; // No debería ocurrir si la tabla está completa
+        return null; // No debería pasar si la tabla está bien definida
     }
 
+    // Métodos para obtener los datos de la tabla
     public int getAnio() {
         return anio;
     }
@@ -62,6 +68,7 @@ public class TablaImpuestoRenta implements Serializable {
         return rangos;
     }
 
+    // Representación en texto de la tabla (útil para depuración)
     @Override
     public String toString() {
         return "TablaImpuestoRenta{" +
