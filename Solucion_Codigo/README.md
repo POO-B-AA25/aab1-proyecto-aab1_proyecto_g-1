@@ -15,7 +15,7 @@ El objetivo principal es facilitar el cumplimiento tributario, guiando al usuari
 ### ¿Qué es MVC?
 
 **MVC** significa **Modelo-Vista-Controlador**. Es una forma de organizar el código de un programa para que sea más fácil de entender, mantener y mejorar.
-- **Modelo:** Son las clases que guardan y procesan los datos (como el contribuyente, los sueldos, las facturas, los cálculos de impuestos).
+- **Modelo:** Son las clases que guardan y procesan los datos.
 - **Vista:** Es la parte que muestra la información al usuario y recibe lo que escribe (en este caso, los menús y mensajes en la consola).
 - **Controlador:** Es el que conecta la vista con el modelo, recibe las órdenes del usuario y decide qué hacer con los datos.
 
