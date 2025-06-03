@@ -9,7 +9,8 @@ public enum CategoriaGasto implements Serializable {
     ALIMENTACION,
     VESTIMENTA,
     SALUD,
-    TURISMO;
+    TURISMO,
+    NO_APLICA;
 
     // Devuelve el límite máximo deducible para la categoría según los ingresos anuales
     public double getLimiteMaximoDeducible(double ingresoAnual) {
@@ -20,6 +21,7 @@ public enum CategoriaGasto implements Serializable {
             case VESTIMENTA -> Math.min(ingresoAnual * 0.20, 3800);
             case SALUD -> Math.min(ingresoAnual * 0.20, 3800);
             case TURISMO -> Math.min(ingresoAnual * 0.10, 1900); // 10% del ingreso o $1900, lo menor
+            case NO_APLICA -> 0.0; // 0.0
             default -> 0.0;
         };
     }

@@ -2,6 +2,7 @@ package Vista; // Indica que este archivo está en el paquete "Vista" (la parte 
 
 import Controlador.SistemaController; // Importa la clase que maneja la lógica principal
 import Modelo.CategoriaGasto;         // Importa el tipo de gasto (enum)
+
 import java.time.LocalDate;           // Para manejar fechas
 import java.time.format.DateTimeFormatter; // Para dar formato a las fechas
 import java.time.format.DateTimeParseException; // Para manejar errores al leer fechas
@@ -235,10 +236,11 @@ public class MenuPrincipal {
 
         System.out.println("\n--- GUARDAR DECLARACIÓN  ---");
 
-        String nombreArchivo = leerDatos("Ingrese el nombre del archivo para guardar (o Enter para 'declaracion.dat'): ");
+        String nombreArchivo = leerDatos("Ingrese el nombre del archivo para guardar (o Enter para 'declaracion'): ");
         if (nombreArchivo.isEmpty()) {
-            nombreArchivo = "declaracion.dat";
+            nombreArchivo = "declaracion";
         }
+        nombreArchivo += ".dat";
 
         boolean resultado = controller.guardarDatos(nombreArchivo);
 
@@ -253,10 +255,11 @@ public class MenuPrincipal {
     private void cargarDeclaracion() {
         System.out.println("\n--- CARGAR DECLARACIÓN  ---");
 
-        String nombreArchivo = leerDatos("Ingrese el nombre del archivo a cargar (o Enter para 'declaracion.dat'): ");
+        String nombreArchivo = leerDatos("Ingrese el nombre del archivo para guardar (o Enter para 'declaracion'): ");
         if (nombreArchivo.isEmpty()) {
-            nombreArchivo = "declaracion.dat";
+            nombreArchivo = "declaracion";
         }
+        nombreArchivo += ".dat";
 
         boolean resultado = controller.cargarDatos(nombreArchivo);
 
@@ -347,7 +350,7 @@ public class MenuPrincipal {
         CategoriaGasto[] categorias = CategoriaGasto.values();
 
         for (int i = 0; i < categorias.length; i++) {
-            System.out.println((i+1) + ". " + categorias[i]);
+            System.out.println((i + 1) + ". " + categorias[i]);
         }
 
         int seleccion = leerEntero("Seleccione una categoría (1-" + categorias.length + "): ", 1, categorias.length);
