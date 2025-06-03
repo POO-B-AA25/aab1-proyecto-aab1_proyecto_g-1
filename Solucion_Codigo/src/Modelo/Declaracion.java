@@ -1,5 +1,6 @@
 package Modelo; // Este archivo está en el paquete Modelo
 
+import java.io.Serial;
 import java.io.Serializable; // Permite guardar/cargar objetos de esta clase
 import java.util.ArrayList;  // Lista dinámica para sueldos y facturas
 import java.util.HashMap;    // Tabla para gastos por categoría
@@ -7,7 +8,8 @@ import java.util.Map;        // Tabla para límites y gastos
 
 // Clase que representa toda la declaración anual de impuestos de una persona
 public class Declaracion implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L; // Define un ID único para serialización
 
     private int anio;                       // Año fiscal de la declaración
     private String estado;                  // Estado de la declaración (pendiente, por pagar, saldo a favor, etc.)
@@ -36,7 +38,7 @@ public class Declaracion implements Serializable {
         this.tablaImpuesto = new TablaImpuestoRenta(anio);
     }
 
-    // Constructor con año específico
+    // Constructor con el año específico
     public Declaracion(int anio) {
         this.anio = anio;
         this.estado = "Pendiente";
@@ -92,7 +94,8 @@ public class Declaracion implements Serializable {
         Map<CategoriaGasto, Double> gastosPorCategoria = getTotalGastosPorCategoria();
         Map<CategoriaGasto, Double> limites = getLimitesDeduciblesPorCategoria();
 
-        for (CategoriaGasto categoria : gastosPorCategoria.keySet()) {
+        for (CategoriaGasto categoria : gastosPorCategoria.keySet()) { // Recorre cada categoría de gasto
+            // Obtiene el gasto total y el límite para esa categoría
             double gastoCategoria = gastosPorCategoria.get(categoria);
             double limiteCategoria = limites.get(categoria);
 

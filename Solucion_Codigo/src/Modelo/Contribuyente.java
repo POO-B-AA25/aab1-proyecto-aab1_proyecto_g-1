@@ -1,10 +1,14 @@
 package Modelo; // Este archivo está en el paquete Modelo
 
+import java.io.Serial;
 import java.io.Serializable; // Permite guardar/cargar objetos de esta clase
 
 // Clase que representa a la persona que declara impuestos
 public class Contribuyente implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L; //define un ID único para serialización
+
+    // Atributos del contribuyente
 
     private String nombre;      // Nombre completo
     private String cedula;      // Cédula de identidad
@@ -23,7 +27,7 @@ public class Contribuyente implements Serializable {
         this.ocupacion = "";
     }
 
-    // Constructor con todos los datos
+    // Constructor con todos los datos del contribuyente
     public Contribuyente(String nombre, String cedula, String direccion, String telefono, String email, String ocupacion) {
         this.nombre = nombre;
         this.cedula = cedula;
