@@ -8,7 +8,7 @@ El usuario puede registrar sus ingresos, gastos deducibles y datos personales, y
 
 El objetivo principal es facilitar el cumplimiento tributario, guiando al usuario paso a paso y asegurando que los datos sean correctos y completos. El uso de MVC hace que el código sea más organizado, mantenible y fácil de entender, lo que es fundamental en la programación orientada a objetos.
 
---
+---
 
 ## ¿Qué es MVC y cómo se aplica aquí?
 
