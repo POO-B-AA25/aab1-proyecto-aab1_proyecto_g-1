@@ -22,7 +22,7 @@ public class ValidadorDatos {
             // Se multiplica cada dígito por su coeficiente y se suma
             for (int i = 0; i < coeficientes.length; i++) {
                 resultado = Character.getNumericValue(cedula.charAt(i)) * coeficientes[i];
-                if (resultado >= 10) {
+                if (resultado > 9) {
                     resultado -= 9; // Si el resultado es mayor a 9, se resta 9
                 }
                 suma += resultado;
