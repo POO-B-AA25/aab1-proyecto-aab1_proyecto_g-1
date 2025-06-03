@@ -58,15 +58,6 @@ public class ValidadorDatos {
         return numeroFactura.matches(regex);
     }
 
-    // Valida que el monto de un gasto no supere el límite legal de la categoría
-    public static boolean validarMontoGasto(CategoriaGasto categoria, double monto, double ingresoAnual) {
-        if (categoria == null || monto < 0 || ingresoAnual < 0) {
-            return false;
-        }
-        double limiteCategoria = categoria.getLimiteMaximoDeducible(ingresoAnual);
-        return monto <= limiteCategoria;
-    }
-
     // Valida que la fecha de la factura esté en el año de la declaración
     public static boolean validarFecha(LocalDate fecha, int anioDeclaracion) {
         if (fecha == null) {
