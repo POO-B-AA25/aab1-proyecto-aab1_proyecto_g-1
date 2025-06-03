@@ -1,5 +1,11 @@
 # Sistema de Declaración de Impuestos 2025
 
+Este proyecto implementa un sistema para gestionar la declaración de impuestos personales, aplicando el patrón de diseño MVC para separar la lógica de datos, la interacción con el usuario y el control del flujo.
+
+El usuario puede registrar sus ingresos, gastos deducibles y datos personales, y el sistema valida automáticamente la información según las reglas tributarias ecuatorianas (como límites de deducción y formato de cédula). Además, permite calcular el impuesto a la renta, mostrar un resumen detallado y guardar o cargar la declaración.
+
+El objetivo principal es facilitar el cumplimiento tributario, guiando al usuario paso a paso y asegurando que los datos sean correctos y completos. El uso de MVC hace que el código sea más organizado, mantenible y fácil de entender, lo que es fundamental en la programación orientada a objetos.
+
 ## Documentación Detallada
 
 ---
