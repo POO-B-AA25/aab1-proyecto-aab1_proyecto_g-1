@@ -296,15 +296,3 @@ Gracias por utilizar el sistema.
 8. Cargar tu declaración cuando quieras continuar.
 
 ---
-
-## Resumen para Niños
-
-Este programa es como un cuaderno mágico donde apuntas lo que ganas y gastas. Te pregunta todo paso a paso y te avisa si algo está mal. Al final, te dice si tienes que pagar impuestos o si te van a devolver dinero. ¡Solo sigue las instrucciones en pantalla!
-
----
-
-## Créditos
-
-Desarrollado con amor, café y muchas noches sin dormir para que declarar impuestos sea fácil para todos.
-
----
